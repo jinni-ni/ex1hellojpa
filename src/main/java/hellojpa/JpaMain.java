@@ -20,7 +20,7 @@ public class JpaMain {
         try{
             // 비영속 상태
             Member member = new Member();
-            member.setId(100L);
+            member.setId(101L);
             member.setName("HelloJPA");
 
 
@@ -35,6 +35,17 @@ public class JpaMain {
             // em.remove(member);
             System.out.println("=====AFTER=====");
 
+            // 1차 캐시에 저장되어 select 쿼리를 날리지 않음
+            em.find(Member.class,101L);
+            System.out.println("findMember.id = " + member.getId());
+            System.out.println("findMember.Name = " + member.getName());
+
+            // 쿼리를 날림
+            Member findMember2 = em.find(Member.class,100L);
+            // 1차 캐시에서 데이터 가져옴
+            Member findMember3 = em.find(Member.class,100L);
+
+
             // 쿼리가 날아감
             tx.commit();
         } catch (Exception e){
@@ -47,6 +58,56 @@ public class JpaMain {
     }
 
 }
+
+//public class JpaMain {
+//    public static void main(String[] args) {
+//        EntityManagerFactory emf = Persistence.createEntityManagerFactory("hello");
+//        EntityManager em = emf.createEntityManager();
+//
+//        EntityTransaction tx = em.getTransaction();
+//        tx.begin();
+//
+//        try{
+//            // 비영속 상태
+//            Member member = new Member();
+//            member.setId(101L);
+//            member.setName("HelloJPA");
+//
+//
+//            System.out.println("=====BEFORE=====");
+//            // 영속 상태
+//            // 객체를 저장한 상태
+//            em.persist(member);
+//            // 영속 상태 해제
+//            //em.detach(member);
+//
+//            // db 삭제
+//            // em.remove(member);
+//            System.out.println("=====AFTER=====");
+//
+//            // 1차 캐시에 저장되어 select 쿼리를 날리지 않음
+//            em.find(Member.class,101L);
+//            System.out.println("findMember.id = " + member.getId());
+//            System.out.println("findMember.Name = " + member.getName());
+//
+//            // 쿼리를 날림
+//            Member findMember2 = em.find(Member.class,100L);
+//            // 1차 캐시에서 데이터 가져옴
+//            Member findMember3 = em.find(Member.class,100L);
+//
+//
+//            // 쿼리가 날아감
+//            tx.commit();
+//        } catch (Exception e){
+//            tx.rollback();
+//        }finally {
+//            em.close();
+//        }
+//
+//        emf.close();
+//    }
+//
+//}
 //    public static void main(String[] args) {
 //
 //        EntityManagerFactory emf = Persistence.createEntityManagerFactory("hello");
