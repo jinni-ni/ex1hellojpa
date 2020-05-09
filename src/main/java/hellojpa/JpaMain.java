@@ -8,6 +8,8 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 import java.sql.SQLOutput;
 import java.util.List;
+
+
 public class JpaMain {
     public static void main(String[] args) {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("hello");
@@ -17,20 +19,11 @@ public class JpaMain {
         tx.begin();
 
         try{
-            Member member = em.find(Member.class,150L);
-            member.setName("ZZZZ");
+            Member member = new Member();
+            member.setUsername("C");
 
+            em.persist(member);
 
-//            Member member1 = new Member(150L,"A");
-//            Member member2 = new Member(160L,"B");
-//
-//
-//            em.persist(member1);
-//            em.persist(member2);
-//            System.out.println("======================");
-
-            // commit 시에 sql 이 날아감
-            // flush : 영속성 컨텍스트의 변경사항과 database 를 맞춤
             tx.commit();
         } catch (Exception e){
             tx.rollback();
@@ -42,6 +35,42 @@ public class JpaMain {
     }
 
 }
+
+//
+//
+//public class JpaMain {
+//    public static void main(String[] args) {
+//        EntityManagerFactory emf = Persistence.createEntityManagerFactory("hello");
+//        EntityManager em = emf.createEntityManager();
+//
+//        EntityTransaction tx = em.getTransaction();
+//        tx.begin();
+//
+//        try{
+//            Member member = em.find(Member.class,150L);
+//            member.setName("ZZZZ");
+//
+//
+////            Member member1 = new Member(150L,"A");
+////            Member member2 = new Member(160L,"B");
+////
+////
+////            em.persist(member1);
+////            em.persist(member2);
+////            System.out.println("======================");
+//
+//            // commit 시에 sql 이 날아감
+//            // flush : 영속성 컨텍스트의 변경사항과 database 를 맞춤
+//            tx.commit();
+//        } catch (Exception e){
+//            tx.rollback();
+//        }finally {
+//            em.close();
+//        }
+//
+//        emf.close();
+//    }
+//}
 
 //public class JpaMain {
 //    public static void main(String[] args) {
