@@ -8,11 +8,6 @@ import java.util.Date;
 
 
 @Entity
-@TableGenerator(
-        name = "MEMBER_SEQ_GENERATOR",
-        table = "MY_SEQUENCES",
-        pkColumnValue = "MEMBER_SEQ", allocationSize = 1
-)
 public class Member {
 
     @Id
@@ -53,6 +48,19 @@ public class Member {
     public void setTeam(Team team) {
         this.team = team;
     }
+
+    @Override
+    public String toString() {
+        return "Member{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", team=" + team +
+                '}';
+    }
+//    public void changeTeam(Team team) {
+//        this.team = team;
+//        team.getMembers().add(this);
+//    }
 }
 //
 //@Entity
