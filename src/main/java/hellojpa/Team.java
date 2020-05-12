@@ -11,17 +11,12 @@ public class Team {
     @GeneratedValue
     @Column(name = "TEAM_ID")
     private Long id;
-
     private String name;
 
-    // 1대 다 맵핑에서 어떤거량 연결되어 있는지
-    @OneToMany(mappedBy = "team")
+    @OneToMany
+    @JoinColumn(name="TEAM_ID")
     private List<Member> members = new ArrayList<>();
 
-    public void addMember(Member member){
-        member.setTeam(this);
-        members.add(member);
-    }
 
     public Long getId() {
         return id;
@@ -43,17 +38,7 @@ public class Team {
         return members;
     }
 
-
     public void setMembers(List<Member> members) {
         this.members = members;
-    }
-
-    @Override
-    public String toString() {
-        return "Team{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", members=" + members +
-                '}';
     }
 }
