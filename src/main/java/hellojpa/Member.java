@@ -8,7 +8,7 @@ import java.util.Date;
 
 
 @Entity
-public class Member {
+public class Member extends BaseEntity{
 
     @Id
     @GeneratedValue
@@ -18,9 +18,7 @@ public class Member {
     @Column(name="USERNAME", nullable = true)
     private String username;
 
-    public Long getId() {
-        return id;
-    }
+
 
     public void setId(Long id) {
         this.id = id;

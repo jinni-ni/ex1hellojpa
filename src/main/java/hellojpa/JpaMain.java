@@ -8,6 +8,8 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 import java.sql.SQLOutput;
+import java.time.LocalDate;
+import java.time.*;
 import java.util.List;
 
 
@@ -20,20 +22,12 @@ public class JpaMain {
         tx.begin();
 
         try{
-            //저장
+            Member member = new Member();
+            member.setUsername("user1");
+            member.setCreatedBy("kim");
+            member.setCreatedDate(LocalDateTime.now());
 
-           Member member = new Member();
-           member.setUsername("MEMBER1");
-
-           em.persist(member);
-
-           Team team = new Team();
-           team.setName("teamA");
-
-           team.getMembers().add(member);
-
-           em.persist(team);
-
+            em.persist(member);
            tx.commit();
         } catch (Exception e){
             tx.rollback();
