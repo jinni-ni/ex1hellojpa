@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 
 @MappedSuperclass
 public abstract class BaseEntity {
+    //
     @Column(name = "INSERT_MEMBER")
     private String createdBy;
     private LocalDateTime createdDate;
