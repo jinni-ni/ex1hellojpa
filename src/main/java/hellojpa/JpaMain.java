@@ -8,6 +8,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import java.sql.SQLOutput;
 import java.time.LocalDate;
 import java.time.*;
@@ -22,32 +25,8 @@ public class JpaMain {
         EntityTransaction tx = em.getTransaction();
         tx.begin();
         try {
-            Member member = new Member();
-            member.setUsername("member1");
-            member.setHomeAddress(new Address("city1","street","1000"));
-
-            member.getFavoritFoods().add("치킨");
-            member.getFavoritFoods().add("족발");
-            member.getFavoritFoods().add("피자");
-
-            member.getAddressHistory().add(new AddressEntity("old1","street","10000"));
-            member.getAddressHistory().add(new AddressEntity("old2","street2","20000"));
-            em.persist(member);
-
-            em.flush();
-            em.clear();
-
-            System.out.println("=============== START =====================");
-            Member findMember = em.find(Member.class,member.getId());
-
-            //findMember.getHomeAddress().setCity("newCity");
-            Address a = findMember.getHomeAddress();
-            findMember.setHomeAddress(new Address("newCity",a.getStreet(),a.getZip()));
-
-
-            //치킨 -> 한식
-            findMember.getFavoritFoods().remove("치킨");
-            findMember.getFavoritFoods().add("한식");
+            em.createNativeQuery("select MEMBER_ID, city, street, zip, username from MEMBER")
+                    .getResultList();
 
             tx.commit();
         } catch (Exception e) {
@@ -59,6 +38,52 @@ public class JpaMain {
         emf.close();
     }
 }
+
+//public class JpaMain {
+//    public static void main(String[] args) {
+//        EntityManagerFactory emf = Persistence.createEntityManagerFactory("hello");
+//        EntityManager em = emf.createEntityManager();
+//
+//        EntityTransaction tx = em.getTransaction();
+//        tx.begin();
+//        try {
+//            Member member = new Member();
+//            member.setUsername("member1");
+//            member.setHomeAddress(new Address("city1","street","1000"));
+//
+//            member.getFavoritFoods().add("치킨");
+//            member.getFavoritFoods().add("족발");
+//            member.getFavoritFoods().add("피자");
+//
+//            member.getAddressHistory().add(new AddressEntity("old1","street","10000"));
+//            member.getAddressHistory().add(new AddressEntity("old2","street2","20000"));
+//            em.persist(member);
+//
+//            em.flush();
+//            em.clear();
+//
+//            System.out.println("=============== START =====================");
+//            Member findMember = em.find(Member.class,member.getId());
+//
+//            //findMember.getHomeAddress().setCity("newCity");
+//            Address a = findMember.getHomeAddress();
+//            findMember.setHomeAddress(new Address("newCity",a.getStreet(),a.getZip()));
+//
+//
+//            //치킨 -> 한식
+//            findMember.getFavoritFoods().remove("치킨");
+//            findMember.getFavoritFoods().add("한식");
+//
+//            tx.commit();
+//        } catch (Exception e) {
+//            tx.rollback();
+//        } finally {
+//            em.close();
+//        }
+//
+//        emf.close();
+//    }
+//}
 //
 //public class JpaMain {
 //    public static void main(String[] args) {
